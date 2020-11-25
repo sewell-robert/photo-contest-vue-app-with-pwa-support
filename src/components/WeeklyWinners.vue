@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Most All-Time Votes</h2>
+    <h2>Most Votes All-Time</h2>
     <v-carousel
       cycle
       hide-delimiters
@@ -72,11 +72,11 @@ export default {
 
 <style scoped>
 h2 {
-  color: #043404;
+  color: black;
   font-family: 'Permanent Marker', cursive;
 }
 p {
-  color: #043404;
+  color: black;
   font-family: 'Permanent Marker', cursive;
 }
 .carousel-style-props {

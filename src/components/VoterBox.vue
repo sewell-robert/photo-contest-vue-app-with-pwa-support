@@ -156,7 +156,6 @@ export default {
         })
     },
     cacheIndexForDialog (index) {
-      // this.photoUrlDialog = this.results[index].imgUrl
       this.photo = this.results[index]
 
       if (this.photo.imgUrlHighQuality) {
@@ -166,19 +165,11 @@ export default {
       }
     },
     storeVote () {
-      // This axios call is here for testing only
-      // VoterBoxService.storeOneVote(this.photo.id)
-      //   .then((response) => {
-      //     this.photo.votes = response.data
-      //   })
-
       var newDate = new Date()
       var todaysDt = newDate.getDate()
-      console.log('Todays Date: ' + todaysDt)
 
       if (localStorage.getItem('date')) {
         var date = localStorage.getItem('date')
-        console.log('Last Vote Date: ' + date)
 
         if (date < todaysDt) {
           this.isLiked = true
@@ -189,9 +180,8 @@ export default {
           localStorage.setItem('date', todaysDt)
           localStorage.setItem('photoId', this.photo.id)
 
-          var setDate = localStorage.getItem('date')
-          var setId = localStorage.getItem('photoId')
-          console.log('New Vote Date: ' + setDate + ' ' + setId)
+          localStorage.getItem('date')
+          localStorage.getItem('photoId')
         }
       } else {
         this.isLiked = true
@@ -201,8 +191,6 @@ export default {
           })
         localStorage.setItem('date', todaysDt)
         localStorage.setItem('photoId', this.photo.id)
-
-        console.log('No local storage data was available. Vote stored.')
       }
     }
   },
@@ -243,24 +231,8 @@ export default {
 
 <style scoped>
 .component-background {
-  /* background-image: url("https://photocontestblob.blob.core.windows.net/photocontestblob/white-brick.png");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover; */
-  /* padding-top: 25px; */
   width: auto;
 }
-/* .row-style-props {
-  padding-left: 15px;
-  width: auto;
-}
-.pagination-container {
-  padding-left: 15px;
-  width: auto;
-} */
-/* .pagination-style-props {
-  background-image: linear-gradient(to bottom right, #750000, #ff0000);
-} */
 .card-subtitle {
   font-size: larger;
 }
@@ -268,7 +240,7 @@ export default {
   margin-right: 25px;
 }
 h3 {
-  color: #043404;
+  color: black;
   font-family: 'Permanent Marker', cursive;
 }
 </style>

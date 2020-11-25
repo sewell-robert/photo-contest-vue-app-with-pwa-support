@@ -21,11 +21,11 @@ export default {
 
 <style scoped>
 h4 {
-  color: #043404;
+  color: black;
   font-family: 'Permanent Marker', cursive;
 }
 li {
-  color: #043404;
+  color: black;
   font-family: 'Permanent Marker', cursive;
   padding-bottom: 10px;
 }

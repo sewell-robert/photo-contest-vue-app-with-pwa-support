@@ -20,7 +20,7 @@
               v-model="author"
               label="Enter your name"
               required
-              counter="25"
+              counter="10"
               :disabled="isImageSaving"
               class="author-text-field"
             ></v-text-field>
@@ -36,6 +36,7 @@
             color="#f92545"
             :loading="isImageSaving"
             :disabled="isImageSaving"
+            :hidden="!isUnlocked"
             class="submit-photo-btn"
             v-on:click="submitFile()"
           >Submit Photo</v-btn>
@@ -49,11 +50,11 @@
           <v-snackbar
             v-model="isImageSaved"
           >
-            Photo successfully saved!
+            {{ snackbarText }}
 
             <template v-slot:action="{ attrs }">
               <v-btn
-                color="#12c718"
+                :color="snackbarTextColor"
                 text
                 multi-line
                 timeout="10000"
@@ -74,64 +75,67 @@ import UploadService from '@/api-services/upload.service'
 
 export default {
   name: 'UploadPhoto',
-  props: {
-
-  },
   methods: {
     handleFileUpload () {
       this.uploadedImage = this.$refs.file.files[0]
     },
     submitFile () {
-      this.isImageSaving = true
-      this.isImageSaved = false
+      if (this.uploadedImage) {
+        if (this.author) {
+          this.isImageSaving = true
+          this.isImageSaved = false
 
-      const formData = new FormData()
-      formData.append('file', this.uploadedImage)
-      formData.append('index', this.index)
-      formData.append('author', this.author)
+          const formData = new FormData()
+          formData.append('file', this.uploadedImage)
+          formData.append('index', this.index)
+          formData.append('author', this.author)
 
-      this.index += 1
+          this.index += 1
 
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+
+          UploadService.postOneImage(formData, config).then(response => {
+            this.image = response.data.imgUrlHighQuality
+            this.author = response.data.author
+            this.index = response.data.id
+            this.snackbarText = 'Photo successfully saved!'
+            this.snackbarTextColor = '#12c718'
+            this.isImageSaved = true
+            this.isImageRendered = true
+            this.isImageSaving = false
+          })
+        } else {
+          this.isAuthorMissing = true
+          this.snackbarText = 'Please enter your name'
+          this.snackbarTextColor = '#ff0000'
+          this.isImageSaved = true
         }
-      }
-
-      UploadService.postOneImage(formData, config).then(response => {
-        this.image = response.data.imgUrlHighQuality
-        this.author = response.data.author
-        this.index = response.data.id
+      } else {
+        this.isUploadMissing = true
+        this.snackbarText = 'Please choose a photo'
+        this.snackbarTextColor = '#ff0000'
         this.isImageSaved = true
-        this.isImageRendered = true
-        this.isImageSaving = false
-      })
+      }
     }
-
-    //   this.image = event.target.files[0].name;
-    //   // OrderService.postOneImage();
-    // },
   },
   created () {
+    this.passcode = localStorage.getItem('passcode')
+    if (this.passcode) {
+      if (this.passcode === 'frosty') {
+        this.isUnlocked = true
+      }
+    }
+
     this.image = this.placeholderImage
-    // OrderService.getAll()
-    //   .then((response) => {
-    //     this.image = 'data:image/jpg;base64,'.concat(this.image.concat(response.data));
-    //   });
+
     UploadService.getLast()
       .then((response) => {
-        // this.image = response.data.imgUrl
-        // this.author = response.data.author
         this.index = response.data.id
       })
-    // OrderService.getOne('2')
-    //   .then((response) => {
-    //     this.person = response.data.name;
-    //   });
-    // OrderService.getOneImage('2')
-    //   .then((response) => {
-    //     this.image = response.data.imgUrl;
-    //   });
   },
   data () {
     return {
@@ -142,13 +146,18 @@ export default {
       index: '',
       isImageSaving: false,
       isImageSaved: false,
-      isImageRendered: false
+      isImageRendered: false,
+      passcode: '',
+      isUnlocked: false,
+      snackbarText: '',
+      snackbarTextColor: '#12c718',
+      isUploadMissing: true,
+      isAuthorMissing: true
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .author-text-field {
   margin: 0px 10px 0px 10px;
@@ -164,13 +173,13 @@ export default {
   padding: 15px 0px 15px 0px;
 }
 .submit-button-container {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 .submit-photo-btn {
   color: white;
 }
 h3 {
-  color: #043404;
+  color: black;
   font-family: 'Permanent Marker', cursive;
 }
 </style>
