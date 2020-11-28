@@ -1,6 +1,9 @@
 <template>
   <div class="component-background">
     <h3>(tap on a photo to open it up)</h3>
+    <div class="no-photos" v-if="isResultsEmpty">
+      No photos have been uploaded!
+    </div>
     <div class="row-style-props">
       <v-row>
         <v-col
@@ -66,7 +69,6 @@
               </template>
               <v-card>
                 <v-img
-                  max-height="500"
                   :src="photoUrlDialog"
                   class="grey lighten-2 white--text align-end"
                 >
@@ -139,6 +141,29 @@
         @input="nextPage()"
       ></v-pagination>
     </div>
+
+    <template>
+      <div class="text-center ma-2">
+        <v-snackbar
+          v-model="isSnackbarVisible"
+        >
+          {{ snackbarText }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              :color="snackbarTextColor"
+              text
+              multi-line
+              timeout="10000"
+              v-bind="attrs"
+              @click="isSnackbarVisible = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -165,32 +190,39 @@ export default {
       }
     },
     storeVote () {
-      var newDate = new Date()
-      var todaysDt = newDate.getDate()
+      if (localStorage.getItem('uuid')) {
+        if (localStorage.getItem('uuid') === this.photo.uuid) {
+          this.snackbarText = 'Cannot vote for your own photo'
+          this.snackbarTextColor = '#ff0000'
+          this.isSnackbarVisible = true
+        } else {
+          var newDate = new Date()
+          var todaysDt = newDate.getDate()
 
-      if (localStorage.getItem('date')) {
-        var date = localStorage.getItem('date')
+          var votesRemaining = localStorage.getItem('votesLeft')
+          var votesRemainingInt = parseInt(votesRemaining)
 
-        if (date < todaysDt) {
-          this.isLiked = true
-          VoterBoxService.storeOneVote(this.photo.id)
-            .then((response) => {
-              this.photo.votes = response.data
-            })
-          localStorage.setItem('date', todaysDt)
-          localStorage.setItem('photoId', this.photo.id)
+          if (votesRemainingInt > 0) {
+            this.isLiked = true
+            VoterBoxService.storeOneVote(this.photo.id)
+              .then((response) => {
+                this.photo.votes = response.data
+              })
+            localStorage.setItem('date', todaysDt)
+            localStorage.setItem('photoId', this.photo.id)
 
-          localStorage.getItem('date')
-          localStorage.getItem('photoId')
+            votesRemainingInt = votesRemainingInt - 1
+            localStorage.setItem('votesLeft', votesRemainingInt)
+          } else {
+            this.snackbarText = 'No votes remaining'
+            this.snackbarTextColor = '#ff0000'
+            this.isSnackbarVisible = true
+          }
         }
       } else {
-        this.isLiked = true
-        VoterBoxService.storeOneVote(this.photo.id)
-          .then((response) => {
-            this.photo.votes = response.data
-          })
-        localStorage.setItem('date', todaysDt)
-        localStorage.setItem('photoId', this.photo.id)
+        this.snackbarText = 'You are not authorized to vote. Please reach out for help.'
+        this.snackbarTextColor = '#ff0000'
+        this.isSnackbarVisible = true
       }
     }
   },
@@ -201,6 +233,10 @@ export default {
       }).then(UploadService.getPhotoCount()
         .then((response) => {
           this.paginationLength = Math.ceil(response.data / 6)
+
+          if (response.data === 0) {
+            this.isResultsEmpty = true
+          }
         }))
 
     var newDate = new Date()
@@ -223,7 +259,11 @@ export default {
       photo: {},
       photoUrlDialog: '',
       isLiked: false,
-      alreadyVoted: false
+      alreadyVoted: false,
+      isResultsEmpty: false,
+      isSnackbarVisible: false,
+      snackbarText: '',
+      snackbarTextColor: ''
     }
   }
 }
@@ -242,5 +282,8 @@ export default {
 h3 {
   color: black;
   font-family: 'Permanent Marker', cursive;
+}
+.no-photos {
+  padding-top: 150px;
 }
 </style>

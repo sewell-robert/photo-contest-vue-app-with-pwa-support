@@ -89,6 +89,7 @@ export default {
           formData.append('file', this.uploadedImage)
           formData.append('index', this.index)
           formData.append('author', this.author)
+          formData.append('uuid', localStorage.getItem('uuid'))
 
           this.index += 1
 
@@ -109,13 +110,11 @@ export default {
             this.isImageSaving = false
           })
         } else {
-          this.isAuthorMissing = true
           this.snackbarText = 'Please enter your name'
           this.snackbarTextColor = '#ff0000'
           this.isImageSaved = true
         }
       } else {
-        this.isUploadMissing = true
         this.snackbarText = 'Please choose a photo'
         this.snackbarTextColor = '#ff0000'
         this.isImageSaved = true
@@ -150,9 +149,7 @@ export default {
       passcode: '',
       isUnlocked: false,
       snackbarText: '',
-      snackbarTextColor: '#12c718',
-      isUploadMissing: true,
-      isAuthorMissing: true
+      snackbarTextColor: '#12c718'
     }
   }
 }

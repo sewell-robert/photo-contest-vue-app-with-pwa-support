@@ -1,53 +1,58 @@
 <template>
   <div>
     <h2>Most Votes All-Time</h2>
-    <v-carousel
-      cycle
-      hide-delimiters
-      hide-delimiter-background
-      :show-arrows="false"
-      class="carousel-style-props"
-    >
-      <v-carousel-item
-        v-for='result in results'
-        :key='result.id'
-        reverse-transition="fade-transition"
+    <div v-if="!isResultsEmpty">
+      <v-carousel
+        cycle
+        hide-delimiters
+        hide-delimiter-background
+        :show-arrows="false"
+        class="carousel-style-props"
       >
-        <v-sheet
-          height="100%"
-          color="white"
+        <v-carousel-item
+          v-for='result in results'
+          :key='result.id'
+          reverse-transition="fade-transition"
         >
-          <v-row
-            class="fill-height"
-            align="center"
-            justify="center"
+          <v-sheet
+            height="100%"
+            color="white"
           >
-            <p>{{ result.votes }} votes <v-icon color="black">mdi-trophy-variant</v-icon> By {{ result.author }}</p>
-            <v-card>
-              <v-img
-                :src="result.imgUrlLowQuality"
-                width="100%"
-                height="auto"
-                class="grey lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-              </v-img>
-            </v-card>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel>
+            <v-row
+              class="fill-height"
+              align="center"
+              justify="center"
+            >
+              <p>{{ result.votes }} votes <v-icon color="black">mdi-trophy-variant</v-icon> By {{ result.author }}</p>
+              <v-card>
+                <v-img
+                  :src="result.imgUrlLowQuality"
+                  width="100%"
+                  height="auto"
+                  class="grey lighten-2"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                </v-img>
+              </v-card>
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+    </div>
+    <div v-else class="no-votes">
+      Nothing to see here.<br />No votes have been cast!
+    </div>
   </div>
 </template>
 
@@ -60,11 +65,16 @@ export default {
     WeeklyWinnersService.getWeeklyWinners()
       .then((response) => {
         this.results = response.data
+
+        if (this.results.length === 0) {
+          this.isResultsEmpty = true
+        }
       })
   },
   data () {
     return {
-      results: []
+      results: [],
+      isResultsEmpty: false
     }
   }
 }
@@ -81,5 +91,8 @@ p {
 }
 .carousel-style-props {
   padding-top: 5px;
+}
+.no-votes {
+  padding-top: 150px;
 }
 </style>

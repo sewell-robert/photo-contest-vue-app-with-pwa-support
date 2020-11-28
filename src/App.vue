@@ -11,6 +11,12 @@
             align="center"
             justify="center"
           >
+            <div class="votes-remaining-text">
+              Votes Remaining: {{ votesLeft }}
+            </div>
+
+            <v-spacer></v-spacer>
+
             <v-btn
               class="mx-2 menu-btn"
               color="#bfb7aa"
@@ -100,9 +106,30 @@
 <script>
 export default {
   name: 'App',
+  created () {
+    if (localStorage.getItem('uuid')) {
+      var d = new Date()
+      var n = d.getDay()
+      var todaysDt = d.getDate()
+
+      var lastVoteDt = localStorage.getItem('date')
+      if (lastVoteDt < todaysDt) {
+        if (n === 6) {
+          localStorage.setItem('votesLeft', 5)
+          this.votesLeft = 5
+        } else {
+          localStorage.setItem('votesLeft', 1)
+          this.votesLeft = 1
+        }
+      } else {
+        this.votesLeft = localStorage.getItem('votesLeft')
+      }
+    }
+  },
   data () {
     return {
-      drawer: false
+      drawer: false,
+      votesLeft: 0
     }
   }
 }
@@ -139,5 +166,8 @@ p {
 }
 .shift-up {
   margin-top: -15px;
+}
+.votes-remaining-text {
+  padding-left: 25px;
 }
 </style>
