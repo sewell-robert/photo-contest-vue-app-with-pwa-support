@@ -198,6 +198,8 @@ export default {
         } else {
           var newDate = new Date()
           var todaysDt = newDate.getDate()
+          var month = newDate.getMonth()
+          var year = newDate.getFullYear()
 
           var votesRemaining = localStorage.getItem('votesLeft')
           var votesRemainingInt = parseInt(votesRemaining)
@@ -209,10 +211,14 @@ export default {
                 this.photo.votes = response.data
               })
             localStorage.setItem('date', todaysDt)
+            localStorage.setItem('month', month)
+            localStorage.setItem('year', year)
             localStorage.setItem('photoId', this.photo.id)
 
             votesRemainingInt = votesRemainingInt - 1
             localStorage.setItem('votesLeft', votesRemainingInt)
+
+            this.$emit('votesRemainingInt', votesRemainingInt)
           } else {
             this.snackbarText = 'No votes remaining'
             this.snackbarTextColor = '#ff0000'

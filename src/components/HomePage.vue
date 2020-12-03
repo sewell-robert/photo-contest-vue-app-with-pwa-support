@@ -12,7 +12,7 @@
 
     <div
       class="form-style-props"
-      :hidden="!isLogoClicked"
+      :hidden="!isLogoClickedTwice"
     >
       <v-form>
         <v-container>
@@ -74,29 +74,38 @@ export default {
   name: 'HomePage',
   methods: {
     enableSecurityForm () {
+      if (this.isLogoClicked) {
+        this.isLogoClickedTwice = true
+      }
+
       this.isLogoClicked = true
     },
     unlockApp () {
-      var str = this.passcode.toLowerCase()
+      var str = this.passcode.toLowerCase() // from user
       if (str === this.secretWord) {
         localStorage.setItem('passcode', this.secretWord)
 
-        var date = new Date()
-        localStorage.setItem('date', date.getDate() - 1)
-
         if (!localStorage.getItem('uuid')) {
           localStorage.setItem('uuid', uuidv4())
-          console.log('UUID saved')
         }
         this.isUnlocked = true
+      }
+
+      // Disable this after today
+      var isReset = localStorage.getItem('alreadyReset')
+      if (!isReset && str === this.secretWord2) {
+        localStorage.setItem('votesLeft', 1)
+        localStorage.setItem('alreadyReset', true)
       }
     }
   },
   data () {
     return {
       secretWord: 'frosty',
+      secretWord2: 'reset',
       passcode: '',
       isLogoClicked: false,
+      isLogoClickedTwice: false,
       isUnlocked: false
     }
   }

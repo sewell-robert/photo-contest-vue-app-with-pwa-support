@@ -12,7 +12,7 @@
             justify="center"
           >
             <div class="votes-remaining-text">
-              Votes Remaining: {{ votesLeft }}
+              Remaining votes today: {{ votesLeft }}
             </div>
 
             <v-spacer></v-spacer>
@@ -96,7 +96,7 @@
       </v-sheet>
     <v-content>
         <v-container fluid>
-            <router-view class="shift-up"></router-view>
+            <router-view class="shift-up" v-on:votesRemainingInt="onStoreVote"></router-view>
         </v-container>
     </v-content>
     </v-app>
@@ -112,8 +112,25 @@ export default {
       var n = d.getDay()
       var todaysDt = d.getDate()
 
-      var lastVoteDt = localStorage.getItem('date')
-      if (lastVoteDt < todaysDt) {
+      var lastVoteDay = localStorage.getItem('date')
+      var lastVoteMonth = localStorage.getItem('month')
+      var lastVoteYear = localStorage.getItem('year')
+
+      if (!lastVoteDay) {
+        localStorage.setItem('date', todaysDt) // really gets day of month as number
+        localStorage.setItem('month', d.getMonth())
+        localStorage.setItem('year', d.getFullYear())
+
+        if (n === 6) {
+          localStorage.setItem('votesLeft', 5)
+          this.votesLeft = 5
+        } else {
+          localStorage.setItem('votesLeft', 1)
+          this.votesLeft = 1
+        }
+      }
+
+      if (lastVoteDay < todaysDt || lastVoteMonth < d.getMonth() || lastVoteYear < d.getFullYear()) {
         if (n === 6) {
           localStorage.setItem('votesLeft', 5)
           this.votesLeft = 5
@@ -124,12 +141,19 @@ export default {
       } else {
         this.votesLeft = localStorage.getItem('votesLeft')
       }
+    } else {
+      this.votesLeft = '0'
+    }
+  },
+  methods: {
+    onStoreVote (value) {
+      this.votesLeft = value.toString()
     }
   },
   data () {
     return {
       drawer: false,
-      votesLeft: 0
+      votesLeft: ''
     }
   }
 }
@@ -168,6 +192,6 @@ p {
   margin-top: -15px;
 }
 .votes-remaining-text {
-  padding-left: 25px;
+  padding-left: 20px;
 }
 </style>
