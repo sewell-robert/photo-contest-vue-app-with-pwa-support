@@ -136,7 +136,7 @@
         v-model="page"
         :length="paginationLength"
         circle
-        color="#f92545"
+        color="#FF686B"
         class="pagination-style-props"
         @input="nextPage()"
       ></v-pagination>
@@ -285,9 +285,9 @@ export default {
 .heart-icon-btn {
   margin-right: 25px;
 }
-h3 {
-  color: black;
-  font-family: 'Permanent Marker', cursive;
+h1 {
+  color: gray;
+  font-family: 'Calistoga', cursive;
 }
 .no-photos {
   padding-top: 150px;

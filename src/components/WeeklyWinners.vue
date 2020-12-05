@@ -4,9 +4,9 @@
     <div v-if="!isResultsEmpty">
       <v-carousel
         cycle
+        hide-delimiters
         hide-delimiter-background
         interval="20000"
-        :show-arrows="false"
         class="carousel-style-props"
       >
         <v-carousel-item
@@ -23,7 +23,7 @@
               align="center"
               justify="center"
             >
-              <p>{{ result.votes }} votes <v-icon color="black">mdi-trophy-variant</v-icon> By {{ result.author }} (Week {{ result.contestWeek }})</p>
+              <p>{{ result.votes }} votes <v-icon class="icon-style">mdi-trophy-variant</v-icon> By {{ result.author }} (Week {{ result.contestWeek }})</p>
 
               <v-card>
                 <v-img
@@ -83,17 +83,20 @@ export default {
 
 <style scoped>
 h2 {
-  color: black;
-  font-family: 'Permanent Marker', cursive;
+  color: gray;
+  font-family: 'Calistoga', cursive;
 }
 p {
-  color: black;
-  font-family: 'Permanent Marker', cursive;
+  color: gray;
+  font-family: 'Calistoga', cursive;
 }
 .carousel-style-props {
   padding-top: 5px;
 }
 .no-votes {
   padding-top: 150px;
+}
+.icon-style {
+  color: gray;
 }
 </style>

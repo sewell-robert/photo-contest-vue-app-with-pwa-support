@@ -1,15 +1,15 @@
 <template>
     <div>
-        <h4>Welcome to the Contest!<br />The rules are listed here.</h4><br />
+        <h2>Welcome to the Contest!</h2>
+        <h4>The rules are listed here.</h4>
         <ol>
-          <li>The contest officially starts on Thanksgiving Day, November 26th and will end during the final week of December.</li>
-          <li>Every Sunday will begin a new weekly contest. This means you will have a chance to win every week for the next 6 weeks.</li>
-          <li>You may upload as many photos as you like, but please make sure you only choose your very best.</li>
-          <li>Please do not upload photos of people or individuals. As long as the photo is not staged, people may be included in the background or environment.</li>
-          <li>Each participant gets one vote per day. That is 7 votes per week. Votes are not carried over, so make sure you stop by at least once per day to cast your vote or you will lose it.</li>
-          <li>Lastly, the person whose photo receives the most votes each week will win a prize and will be displayed on the Winners page.</li>
+          <li>The contest officially begins December 6th and will end the final week of December.</li>
+          <li>Every Sunday will be the start of a new weekly contest.</li>
+          <li>Upload only your very best photos from this holiday season.</li>
+          <li>Staged photos of people or individuals are not permitted, but photos of babies and pets are.</li>
+          <li>You get one vote per day and five votes each Saturday. Votes are not carried over.</li>
+          <li>The participant with the photo with the most votes each week will win a prize. Winners will be notified on Sunday mornings.</li>
         </ol>
-        <h4 class="thanks">Thanks for playing and have fun!</h4>
     </div>
 </template>
 
@@ -20,16 +20,18 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  color: gray;
+  font-family: 'Calistoga', cursive;
+}
 h4 {
-  color: black;
-  font-family: 'Permanent Marker', cursive;
+  color: gray;
+  font-family: 'Calistoga', cursive;
+  padding-bottom: 15px;
 }
 li {
-  color: black;
-  font-family: 'Permanent Marker', cursive;
-  padding-bottom: 10px;
-}
-.thanks {
-  color: #A81016;
+  color: gray;
+  font-family: 'Calistoga', cursive;
+  padding-bottom: 15px;
 }
 </style>

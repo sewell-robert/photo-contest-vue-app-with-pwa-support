@@ -1,20 +1,19 @@
 <template>
-  <div>
-    <div  class="logo-style-props">
-        <v-img
-          v-on:click="enableSecurityForm()"
-          src="https://photocontestblob.blob.core.windows.net/photocontestblob/homepage-logo-art.gif"
-          width="100%"
-          height="100%"
-        >
-        </v-img>
+  <div :class="{ 'root-container': !isLogoClickedTwice }">
+    <div class="logo-style-props">
+      <v-img
+        v-on:click="enableSecurityForm()"
+        src="https://photocontestblob.blob.core.windows.net/photocontestblob/homepage-logo-revamped.gif"
+        width="100%"
+        height="100%"
+      >
+      </v-img>
     </div><br />
 
     <div
-      class="form-style-props"
       :hidden="!isLogoClickedTwice"
     >
-      <v-form>
+      <v-form class="form-style-props">
         <v-container>
           <v-row>
             <v-col
@@ -113,8 +112,9 @@ export default {
 </script>
 
 <style scoped>
-.logo-style-props {
-  padding-top: 10px;
+.root-container {
+  overflow: hidden;
+  max-height: 100%;
 }
 .form-style-props {
   padding-top: 250px;
