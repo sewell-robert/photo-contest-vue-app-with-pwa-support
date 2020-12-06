@@ -98,6 +98,13 @@ export default {
       }
     }
   },
+  created () {
+    if (!localStorage.getItem('uuid')) {
+      localStorage.setItem('uuid', uuidv4())
+
+      localStorage.setItem('passcode', this.secretWord)
+    }
+  },
   data () {
     return {
       secretWord: 'frosty',

@@ -1,6 +1,8 @@
 <template>
   <div class="component-background">
-    <h3>(tap on a photo to open it up)</h3>
+    <div v-if="!isResultsEmpty">
+      <h3>(tap on a photo to open it up)</h3>
+    </div>
     <div class="no-photos" v-if="isResultsEmpty">
       No photos have been uploaded!
     </div>
@@ -239,6 +241,7 @@ export default {
       }).then(UploadService.getPhotoCount()
         .then((response) => {
           this.paginationLength = Math.ceil(response.data / 6)
+          console.log(response.data)
 
           if (response.data === 0) {
             this.isResultsEmpty = true
