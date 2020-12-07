@@ -3,12 +3,22 @@
     <div class="logo-style-props">
       <v-img
         v-on:click="enableSecurityForm()"
-        src="https://photocontestblob.blob.core.windows.net/photocontestblob/homepage-logo-revamped.gif"
+        src="https://photocontestblob.blob.core.windows.net/photocontestblob/homepage-logo-no-animation.png"
         width="100%"
         height="100%"
       >
       </v-img>
-    </div><br />
+    </div>
+
+    <div class="divider-style">
+      <v-divider></v-divider>
+    </div>
+
+    <div class="homepage-text">
+      <h2>The contest has begun!</h2>
+    </div>
+
+    <h3>(click the menu button to get started)</h3>
 
     <div
       :hidden="!isLogoClickedTwice"
@@ -125,5 +135,13 @@ export default {
 }
 .form-style-props {
   padding-top: 250px;
+}
+.homepage-text {
+  padding-bottom: 10px;
+}
+.divider-style {
+  margin-top: -25px;
+  margin-bottom: 15px;
+  position: relative;
 }
 </style>

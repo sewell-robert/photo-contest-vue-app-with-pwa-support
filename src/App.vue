@@ -61,7 +61,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-divider class="divider-style"></v-divider><br />
+            <v-divider></v-divider><br />
 
             <v-list-item link>
               <v-list-item-icon>
@@ -113,7 +113,7 @@
       </v-sheet>
       <v-content>
           <v-container fluid>
-              <router-view class="shift-up" v-on:votesRemainingInt="onStoreVote"></router-view>
+              <router-view v-on:votesRemainingInt="onStoreVote"></router-view>
           </v-container>
       </v-content>
     </v-app>
@@ -178,13 +178,10 @@ export default {
 
 <style>
 #app {
-  /* font-family: 'Rye', cursive; */
-  /* font-family: 'Permanent Marker', cursive; */
   font-family: 'Calistoga', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  /* color: #2c3e50; */
   color: gray;
 }
 .menu-btn {
@@ -201,8 +198,6 @@ export default {
   background-image: linear-gradient(to right, #A5FFD6,  #84DCC6);
 }
 p {
-  /* font-family: 'Rye', cursive; */
-  /* font-family: 'Permanent Marker', cursive; */
   font-family: 'Calistoga', cursive;
 }
 .text-adjustment {
@@ -210,12 +205,7 @@ p {
   font-size: larger;
   padding-top: 15px;
 }
-/* .shift-up {
-  margin-top: -15px;
-} */
 .votes-remaining-text {
-  /* color: #616161; */
-  /* color: #4f4f4f; */
   color: whitesmoke;
   font-size: large;
 }
@@ -232,7 +222,4 @@ p {
 .list-item-title {
   padding-top: 4px;
 }
-/* .divider-style {
-  background-color: #A5FFD6;
-} */
 </style>

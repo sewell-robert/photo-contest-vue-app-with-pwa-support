@@ -10,6 +10,7 @@
         class="carousel-style-props"
       >
         <v-carousel-item
+          height="700"
           v-for='result in results'
           :key='result.id'
           reverse-transition="fade-transition"
@@ -25,27 +26,25 @@
             >
               <p>{{ result.votes }} votes <v-icon class="icon-style">mdi-trophy-variant</v-icon> By {{ result.author }} (Week {{ result.contestWeek }})</p>
 
-              <v-card>
-                <v-img
-                  :src="result.imgUrlHighQuality"
-                  width="100%"
-                  height="auto"
-                  class="grey lighten-2"
+              <v-img
+                :src="result.imgUrlHighQuality"
+                contain
+                max-height="100%"
+                class="grey lighten-2"
+              >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
                   >
-                    <template v-slot:placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                </v-img>
-              </v-card>
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-5"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
             </v-row>
           </v-sheet>
         </v-carousel-item>
