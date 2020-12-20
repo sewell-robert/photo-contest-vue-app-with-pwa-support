@@ -17,7 +17,17 @@
           <input class="file-input btn" type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
 
           <v-text-field
+            v-model="photoTitle"
+            outlined
+            label="Photo title (optional)"
+            counter="50"
+            :disabled="isImageSaving"
+            class="photoTitle-text-field"
+          ></v-text-field>
+
+          <v-text-field
             v-model="author"
+            outlined
             label="Enter your name"
             required
             counter="10"
@@ -89,6 +99,7 @@ export default {
           formData.append('file', this.uploadedImage)
           formData.append('index', this.index)
           formData.append('author', this.author)
+          formData.append('photoTitle', this.photoTitle)
           formData.append('uuid', localStorage.getItem('uuid'))
 
           this.index += 1
@@ -142,6 +153,7 @@ export default {
       uploadedImage: '',
       placeholderImage: 'https://photocontestblob.blob.core.windows.net/photocontestblob/photo-pride-text-cropped.jpg',
       author: '',
+      photoTitle: '',
       index: '',
       isImageSaving: false,
       isImageSaved: false,
@@ -159,16 +171,15 @@ export default {
 .author-text-field {
   margin: 0px 10px 0px 10px;
 }
-/* .image-style-props {
-  border: 2px solid black;
-  border-radius: 4px;
-} */
+.photoTitle-text-field {
+  margin: 10px 10px 0px 10px;
+}
 .file-input {
   font-size: small;
   margin: 10px 0px 10px -20px;
 }
 .form-style-props {
-  padding: 15px 0px 15px 0px;
+  padding: 10px 0px 15px 0px;
 }
 .submit-button-container {
   padding-bottom: 10px;

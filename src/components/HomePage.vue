@@ -15,10 +15,12 @@
     </div>
 
     <div class="homepage-text">
-      <h2>The contest has begun!</h2>
+      <h2>Congratulations, Frank Schiciano!</h2>
     </div>
 
-    <h3>(click the menu button to get started)</h3>
+    <h3>Out of all the beautiful photos, yours received the most votes in Week 2!</h3><br />
+    <h4>Whose photo will win next? Now accepting Week 3 photos.</h4>
+    <h4>(click the menu button to get started)</h4>
 
     <div
       :hidden="!isLogoClickedTwice"
@@ -141,7 +143,7 @@ export default {
 }
 .divider-style {
   margin-top: -25px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   position: relative;
 }
 </style>

@@ -43,7 +43,9 @@
                 </v-img>
               </template>
 
-              <v-card>
+              <v-card :color="cardColor">
+                <v-card-title v-if="photo.photoTitle" class="photoTitle-style-props">"{{photo.photoTitle}}"</v-card-title>
+
                 <v-img
                   :src="photoUrlDialog"
                   class="grey lighten-2 white--text align-end"
@@ -65,6 +67,7 @@
                     </v-row>
                   </template>
                 </v-img>
+
                 <v-card-actions>
                   <v-card-subtitle class="card-subtitle">{{ photo.votes }} Votes</v-card-subtitle>
 
@@ -164,6 +167,12 @@ export default {
       } else {
         this.photoUrlDialog = this.photo.imgUrl
       }
+
+      if (this.cardColor === '#84DCC6') {
+        this.cardColor = '#ffa69e'
+      } else {
+        this.cardColor = '#84DCC6'
+      }
     },
     storeVote () {
       if (localStorage.getItem('uuid')) {
@@ -211,10 +220,6 @@ export default {
   created () {
     UploadService.getNextPage(1)
       .then((response) => {
-        console.log(response.data)
-        console.log(response.data.photoCount)
-        console.log(response.data.photoDataList)
-
         this.results = response.data.photoDataList
 
         this.paginationLength = Math.ceil(response.data.photoCount / 6)
@@ -261,7 +266,8 @@ export default {
       isResultsEmpty: false,
       isSnackbarVisible: false,
       snackbarText: '',
-      snackbarTextColor: ''
+      snackbarTextColor: '',
+      cardColor: '#ffa69e'
     }
   }
 }
@@ -283,5 +289,9 @@ h1 {
 }
 .no-photos {
   padding-top: 150px;
+}
+.photoTitle-style-props {
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>

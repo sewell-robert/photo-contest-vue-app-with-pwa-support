@@ -141,6 +141,12 @@ export default {
         if (n === 6) {
           localStorage.setItem('votesLeft', 5)
           this.votesLeft = 5
+        } else if (n === 5 || n === 4) {
+          localStorage.setItem('votesLeft', 3)
+          this.votesLeft = 3
+        } else if (n === 3 || n === 2) {
+          localStorage.setItem('votesLeft', 2)
+          this.votesLeft = 2
         } else {
           localStorage.setItem('votesLeft', 1)
           this.votesLeft = 1
@@ -151,6 +157,12 @@ export default {
         if (n === 6) {
           localStorage.setItem('votesLeft', 5)
           this.votesLeft = 5
+        } else if (n === 5 || n === 4) {
+          localStorage.setItem('votesLeft', 3)
+          this.votesLeft = 3
+        } else if (n === 3 || n === 2) {
+          localStorage.setItem('votesLeft', 2)
+          this.votesLeft = 2
         } else {
           localStorage.setItem('votesLeft', 1)
           this.votesLeft = 1
